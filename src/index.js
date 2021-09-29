@@ -4,6 +4,10 @@ import morgan from 'morgan';
 import errorHandler from './middleware/error';
 import connectDB from './config/db';
 import 'colors'; // merely optional
+// Routes
+import orderRoutes from './routes/orders';
+import userRoutes from './routes/users';
+
 // Load env config vars from env files if the case
 dotenv.config({ path: './src/config/config.env' });
 
@@ -20,7 +24,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 // Route mounting
-app.get('/', () => console.log('Hello world parrot'));
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // general error Handler
 app.use(errorHandler);

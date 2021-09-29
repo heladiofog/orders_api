@@ -7,7 +7,8 @@ const errorHandler = (err, req, res, next) => {
   // Error handler coming from a request for dev mode
   // console.log('Error stack ', err.stack.red);
   // console.log(err);
-  console.log('Error name ', err.name.red);
+  console.log('Error name: '.red.inverse, err.name.red);
+  console.log('Error message: '.red.inverse, err.message.red.inverse);
   // console.log('Error value ', err.value);
 
   // Mongoose bad ObjectId cast error
