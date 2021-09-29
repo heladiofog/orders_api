@@ -1,6 +1,7 @@
 import UserModel from '../models/User';
 import asyncHandler from '../middleware/async';
 import ErrorResponse from '../utils/ErrorResponse';
+import jwt from 'jsonwebtoken';
 
 // @desc    Get all users
 // @route   GET /api/v1/users
@@ -52,11 +53,12 @@ export const getUserById = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Create an user
+// @desc    Create a user
 // @route   POST /api/v1/users
 // @access  Private
 export const createUser = asyncHandler(async (req, res, next) => {
   const user = await UserModel.create(req.body);
+  user.password = undefined; // remove hashed password info
 
   res.status(201).json({
     success: true,
@@ -65,7 +67,7 @@ export const createUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Update an user
+// @desc    Update a user
 // @route   PUT /api/v1/users/:id
 // @access  Private
 export const updateUser = asyncHandler(async (req, res, next) => {
@@ -87,7 +89,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Delete an user
+// @desc    Delete a user
 // @route   DELETE /api/v1/users/:id
 // @access  Private
 export const deleteUser = asyncHandler(async (req, res, next) => {
@@ -106,5 +108,47 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
     success: true,
     message: `Deleted user: ${req.params.id}`,
     data: {},
+  });
+});
+
+// @desc    Authenticate a user
+// @route   DELETE /api/v1/users/:id
+// @access  Private
+
+export const login = asyncHandler(async (req, res, next) => {
+  UserModel.findOne({ email: req.body.email }, (err, user) => {
+    if (err) {
+      return next(
+        new ErrorResponse(`There was an error with authentication.`, 500)
+      );
+    }
+    // Validate that the user existed
+    if (!user) {
+      return next(
+        new ErrorResponse(`Authentication failed. No user found.`, 404)
+      );
+    } else if (user) {
+      if (!user.comparePassword(req.body.password, user.password)) {
+        console.log(`Wrong password...`);
+        return next(
+          new ErrorResponse(`'Authentication failed. Wrong credentials.`, 401)
+        );
+      } else {
+        let secret = process.env.SECRET_KEY || 'S3cuRe$';
+
+        return res.status(200).json({
+          success: true,
+          token: jwt.sign(
+            {
+              email: user.email,
+              name: user.name,
+              _id: user.id,
+            },
+            secret,
+            { expiresIn: 3600 }
+          ),
+        });
+      }
+    }
   });
 });

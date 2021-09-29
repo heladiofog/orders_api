@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import errorHandler from './middleware/error';
 import connectDB from './config/db';
 import 'colors'; // merely optional
+import { verifyToken } from './middleware/auth';
 // Routes
 import orderRoutes from './routes/orders';
 import userRoutes from './routes/users';
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 5005;
 
 // some middleware using
 app.use(express.json());
+app.use(verifyToken);
 // Logging with morgan for dev env only
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

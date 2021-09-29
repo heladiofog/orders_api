@@ -34,7 +34,7 @@ export const getOrders = asyncHandler(async (req, res, next) => {
   if (req.query.select) {
     const selectedFields = req.query.select.split(',').join(' ');
     // console.log(selectedFields);
-    query = query.select(selectedFields);
+    query = query.select(selectedFields).lean();
   }
 
   // Executing query
@@ -79,28 +79,27 @@ export const getSoldProducts = asyncHandler(async (req, res, next) => {
   // Finding Resource
   const orders = await query;
   // console.log(orders);
-  // Get products together, group by name and do some calcs
+  // 1. Get products together, group by name and do some calcs
   let products = [];
   // for...of for collections
   for (const order of orders) {
     products = [...products, ...Array.from(order.products)];
   }
-  // Merge equal products
-  console.log('[prodCount]', prodCount);
-  // This is an object with each product name as field
+  // 2. Group by product's name
+  // This will be an object with each product name as field (key)
   const groupedProductsObject = groupProductsBy(products, 'name');
-  // List of grouped products
+  // 3. List of grouped products within an array
   const groupedProducts = [];
   // for...in for enum props of objects...
   for (const prodName in groupedProductsObject) {
     groupedProducts.push({
       name: prodName,
       totalAmount: groupedProductsObject[prodName].totalAmount,
-      totalQuantity: groupedProductsObject[prodName].totalAmount,
+      totalQuantity: groupedProductsObject[prodName].totalQuantity,
     });
   }
 
-  console.log('[groupedProducts]', groupedProducts);
+  // console.log('[groupedProducts] (unordered)', groupedProducts);
   // get sorted products at the very end...
 
   res.status(200).json({
