@@ -1,0 +1,82 @@
+[
+  {
+    "user": "614ca68285e7a7d6a5cd2e25",
+    "externalClient": "Tezcatlipoca Xoyohuauqui",
+    "totalPrice": 500,
+    "products": [
+      {
+        "name": "Avocado",
+        "unitaryPrice": 250,
+        "quantity": 1
+      },
+      {
+        "name": "Pineaple",
+        "unitaryPrice": 250,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "user": "6153b7e2c1c37d696e4a4ba3",
+    "externalClient": "Peque Boo",
+    "totalPrice": 150,
+    "products": [
+      {
+        "name": "Tomate",
+        "unitaryPrice": 5,
+        "quantity": 20
+      },
+      {
+        "name": "Oranges",
+        "unitaryPrice": 3,
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "user": "614ca68285e7a7d6a5cd2e25",
+    "externalClient": "Huitzilopochtli",
+    "totalPrice": 700,
+    "products": [
+      {
+        "name": "Cucumber",
+        "unitaryPrice": 50,
+        "quantity": 3
+      },
+      {
+        "name": "Lemons",
+        "unitaryPrice": 4,
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "user": "6153b7e2c1c37d696e4a4ba3",
+    "externalClient": "Tezcatlipoca Xoyohuauqui",
+    "totalPrice": 500,
+    "products": [
+      {
+        "name": "Lettuce",
+        "unitaryPrice": 250,
+        "quantity": 1
+      },
+      {
+        "name": "Celery",
+        "unitaryPrice": 250,
+        "quantity": 3
+      }
+    ]
+  },
+  {
+    "user": "614ca68285e7a7d6a5cd2e25",
+    "externalClient": "Tlaloc II",
+    "totalPrice": 13,
+    "products": [
+      {
+        "name": "Egg",
+        "unitaryPrice": 3,
+        "quantity": 5
+      }
+    ]
+  }
+]
